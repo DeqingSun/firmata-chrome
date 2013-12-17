@@ -23,8 +23,49 @@ var modeNames = [
   "SERVO",
 ];
 
-chrome.serial.getPorts(function (ports) {
-  var board = window.board = new firmata.Board(ports[0], function (err) {
+var ports;
+
+var selectList;
+var selectBtn;
+
+//window.onload = function() {
+
+  chrome.serial.getPorts(function (queriedPorts) {
+    console.log(queriedPorts);
+    ports = queriedPorts;
+
+
+    selectList = document.createElement("select");
+
+    //Create and append the options
+    for (var i = 0; i < ports.length; i++) {
+        var option = document.createElement("option");
+        option.value = i;
+        option.text = ports[i];
+        selectList.appendChild(option);
+        console.log(option);
+        console.log(selectList);
+    }
+
+    document.body.appendChild(selectList);
+
+    selectBtn = document.createElement("button");
+    selectBtn.innerHTML= "connect";
+    selectBtn.addEventListener('click', function() {
+      console.log('clicked',selectList.selectedIndex);
+      connect(selectList.selectedIndex);
+    }, false);
+    document.body.appendChild(selectBtn);
+
+
+  });
+
+//}
+
+
+
+function connect(port){
+    var board = window.board = new firmata.Board(ports[port], function (err) {
     if (err) throw err;
     console.log("board", board);
     var form = ["form",
@@ -41,14 +82,17 @@ chrome.serial.getPorts(function (ports) {
     ];
     document.body.appendChild(domBuilder(form));
 
-  });  
-  
-  function onChange(evt) {
+  });
+}
+
+
+
+function onChange(evt) {
     var target = evt.target.name.split("-");
     var command = target[0];
     var pin = parseInt(target[1], 10);
     var value = evt.target.checked ? 1 : 0;
-    
+
     console.log("onChange", command, pin, value);
 
     if (command === "mode") {
@@ -65,7 +109,7 @@ chrome.serial.getPorts(function (ports) {
     }
 
   }
-  
+
   function onSubmit(evt) {
     evt.preventDefault();
   }
@@ -77,11 +121,11 @@ chrome.serial.getPorts(function (ports) {
         if (mode === pin.mode) {
           opt.selected=true;
         }
-        return ["option", opt, modeNames[mode]];  
+        return ["option", opt, modeNames[mode]];
       })
     ];
   }
-  
+
   function renderValue(pin, i) {
     var opts = {
       type: "checkbox",
@@ -90,7 +134,4 @@ chrome.serial.getPorts(function (ports) {
     if (pin.value) opts.checked = true;
     return ["input", opts];
   }
-
-
-});
 

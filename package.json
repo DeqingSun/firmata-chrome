@@ -1,0 +1,28 @@
+{
+  "name": "firmata-chrome",
+  "version": "0.1.0",
+  "description": "firmata controller for chrome",
+  "main": "main.js",
+  "dependencies": {
+    "base64-js": "0.0.4",
+    "bops": "~0.1.1",
+    "chrome-app-module-loader": "0.0.3",
+    "dombuilder": "~0.1.2",
+    "domlog": "0.0.9",
+    "to-utf8": "0.0.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/creationix/firmata-chrome.git"
+  },
+  "author": "",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/creationix/firmata-chrome/issues"
+  },
+  "homepage": "https://github.com/creationix/firmata-chrome"
+}
