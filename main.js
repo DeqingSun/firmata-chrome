@@ -96,12 +96,18 @@ function onChange(evt) {
     console.log("onChange", command, pin, value);
 
     if (command === "mode") {
+      var input = this["value-" + pin];
+      console.log(input);
       board.pinMode(pin, value);
       if (value === board.MODES.INPUT) {
-        var input = this["value-" + pin];
+
+        input.disabled = true;
         board.digitalRead(pin, function (value) {
           input.checked = value;
+          console.log('read',pin, value);
         });
+      }else{
+        input.disabled = true;
       }
     }
     else if (command === "value") {

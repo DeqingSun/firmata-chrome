@@ -10,7 +10,7 @@ function SerialPort(port, options) {
   chrome.serial.open(port, {
     bitrate: options.baudrate || 9600
   }, onOpen);
-  
+
   function onOpen (info) {
     id = self.id = info.connectionId
     if (id < 0) {
@@ -34,16 +34,16 @@ function SerialPort(port, options) {
     }
     var data = new Uint8Array(info.data);
     self.emit("data", data);
-    // console.log("IN", data);
+    //console.log("IN", data);
     startRead();
   }
-  
+
   this.write = function (data) {
     data = new Uint8Array(data);
     // console.log("OUT", data);
     chrome.serial.write(id, data.buffer, onWrite);
   };
-  
+
   function onWrite() {
     // log("onWrite", arguments);
   }
