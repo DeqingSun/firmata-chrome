@@ -30,7 +30,7 @@ var selectBtn;
 
 //window.onload = function() {
 
-  chrome.serial.getPorts(function (queriedPorts) {
+  chrome.serial.getDevices(function (queriedPorts) {
     console.log(queriedPorts);
     ports = queriedPorts;
 
@@ -41,7 +41,7 @@ var selectBtn;
     for (var i = 0; i < ports.length; i++) {
         var option = document.createElement("option");
         option.value = i;
-        option.text = ports[i];
+        option.text = ports[i].path;
         selectList.appendChild(option);
         console.log(option);
         console.log(selectList);
@@ -65,7 +65,7 @@ var selectBtn;
 
 
 function connect(port){
-    var board = window.board = new firmata.Board(ports[port], function (err) {
+    var board = window.board = new firmata.Board(ports[port].path, function (err) {
     if (err) throw err;
     console.log("board", board);
     var form = ["form",
